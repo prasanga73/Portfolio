@@ -13,11 +13,25 @@ export default function Contact() {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault()
     // Here you would typically send the form data to a backend
-    console.log('Form submitted:', formData)
-    setSubmitted(true)
+    const formData = new FormData(event.target);
+    formData.append("access_key", "2daeca8c-4aac-4213-9b3e-54e93fb26563");
+
+    const response = await fetch("https://api.web3forms.com/submit",{
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (data.success){
+      setSubmitted(true)
+    }
+    else {
+      setSubmitted(false)
+    }
     setFormData({ name: '', email: '', message: '' })
     setTimeout(() => setSubmitted(false), 3000)
   }
