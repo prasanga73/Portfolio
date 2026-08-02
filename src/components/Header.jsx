@@ -62,9 +62,22 @@ export default function Header({ theme, setTheme }) {
             padding: 0,
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
+            gap: '10px',
           }}
         >
+          <img
+            src="/logo.png"
+            alt="Logo"
+            style={{
+              width: '30px',
+              height: '30px',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              padding: '2.5px',
+              backgroundColor: '#0e121a',
+              border: '1.5px solid var(--border-color)',
+            }}
+          />
           <span
             style={{
               fontFamily: 'var(--font-mono)',
