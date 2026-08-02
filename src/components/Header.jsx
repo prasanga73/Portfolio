@@ -1,7 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Header({ theme, setTheme }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id)
@@ -11,46 +20,223 @@ export default function Header({ theme, setTheme }) {
     }
   }
 
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
+
+  const menuItems = ['home', 'about', 'skills', 'projects', 'contact']
+
   return (
-    <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
-      <nav className="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold">
-          Prasanga
-        </h1>
-        
+    <header
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        backgroundColor: scrolled
+          ? 'var(--bg-primary)'
+          : 'transparent',
+        borderBottom: scrolled
+          ? '1px solid var(--border-color)'
+          : '1px solid transparent',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        transition: 'background-color 0.3s, border-color 0.3s',
+      }}
+    >
+      <div
+        className="container"
+        style={{
+          height: '72px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        {/* Logo */}
         <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white focus:outline-none"
+          onClick={() => scrollToSection('home')}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
+          <span
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '1.15rem',
+              fontWeight: 700,
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.02em',
+            }}
+          >
+            prasanga.n
+          </span>
         </button>
 
-        <div className={`${isOpen ? 'flex' : 'hidden'} md:flex flex-col md:flex-row items-center gap-6 absolute md:static top-16 left-0 right-0 bg-white dark:bg-slate-900 md:bg-transparent p-6 md:p-0 border-b md:border-0 border-slate-200 dark:border-slate-800`}>
-          <button onClick={() => scrollToSection('home')} className="text-slate-600 dark:text-slate-300 hover:text-primary transition font-medium cursor-pointer hover:scale-90">Home</button>
-          <button onClick={() => scrollToSection('about')} className="text-slate-600 dark:text-slate-300 hover:text-primary transition font-medium cursor-pointer hover:scale-90">About</button>
-          <button onClick={() => scrollToSection('skills')} className="text-slate-600 dark:text-slate-300 hover:text-primary transition font-medium cursor-pointer hover:scale-90">Skills</button>
-          <button onClick={() => scrollToSection('projects')} className="text-slate-600 dark:text-slate-300 hover:text-primary transition font-medium cursor-pointer hover:scale-90">Projects</button>
-          <button onClick={() => scrollToSection('contact')} className="text-slate-600 dark:text-slate-300 hover:text-primary transition font-medium cursor-pointer hover:scale-90">Contact</button>
-          
+        {/* Navigation - Desktop */}
+        <nav
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '32px',
+          }}
+          className="hidden md:flex"
+        >
+          {menuItems.map((item) => (
+            <button
+              key={item}
+              onClick={() => scrollToSection(item)}
+              className="nav-item"
+              style={{ textTransform: 'capitalize' }}
+            >
+              {item}
+            </button>
+          ))}
+
+          {/* Theme Toggle Button */}
           <button
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors duration-200 cursor-pointer focus:outline-none"
-            aria-label="Toggle dark mode"
+            onClick={toggleTheme}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: 'var(--text-secondary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '6px',
+              borderRadius: '6px',
+              transition: 'background-color 0.2s, color 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--bg-secondary)'
+              e.currentTarget.style.color = 'var(--text-primary)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent'
+              e.currentTarget.style.color = 'var(--text-secondary)'
+            }}
+            aria-label="Toggle theme"
           >
             {theme === 'dark' ? (
-              <svg className="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+              // Sun Icon
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
               </svg>
             ) : (
-              <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              // Moon Icon
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            )}
+          </button>
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }} className="md:hidden">
+          <button
+            onClick={toggleTheme}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: 'var(--text-secondary)',
+              display: 'flex',
+              alignItems: 'center',
+              padding: '6px',
+            }}
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+              </svg>
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            )}
+          </button>
+
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: 'var(--text-primary)',
+              padding: '6px',
+            }}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            ) : (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
               </svg>
             )}
           </button>
         </div>
-      </nav>
+      </div>
+
+      {/* Mobile Navigation Dropdown */}
+      {isOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '72px',
+            left: 0,
+            right: 0,
+            backgroundColor: 'var(--bg-primary)',
+            borderBottom: '1px solid var(--border-color)',
+            padding: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+            zIndex: 99,
+          }}
+          className="md:hidden"
+        >
+          {menuItems.map((item) => (
+            <button
+              key={item}
+              onClick={() => scrollToSection(item)}
+              className="nav-item"
+              style={{
+                textTransform: 'capitalize',
+                fontSize: '1.05rem',
+                textAlign: 'left',
+                width: '100%',
+              }}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+      )}
     </header>
   )
 }

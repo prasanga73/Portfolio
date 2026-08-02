@@ -6,15 +6,16 @@ import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import ScrollBackground from './components/ScrollBackground'
 import './App.css'
 
 function App() {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       const savedTheme = localStorage.getItem('theme')
-      return savedTheme === 'dark' ? 'dark' : 'light'
+      return savedTheme === 'light' ? 'light' : 'dark'
     }
-    return 'light'
+    return 'dark'
   })
 
   useEffect(() => {
@@ -28,14 +29,19 @@ function App() {
   }, [theme])
 
   return (
-    <div className="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-white transition-colors duration-300 min-h-screen">
+    <div className="bg-primary text-primary transition-colors duration-300 min-h-screen" style={{ position: 'relative' }}>
+      <ScrollBackground theme={theme} />
+      <div style={{ position: 'relative', zIndex: 1 }}>
       <Header theme={theme} setTheme={setTheme} />
-      <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Contact />
+      <main>
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Contact />
+      </main>
       <Footer theme={theme} setTheme={setTheme} />
+      </div>
     </div>
   )
 }

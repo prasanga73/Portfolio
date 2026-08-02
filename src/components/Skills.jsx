@@ -1,40 +1,44 @@
 export default function Skills() {
-  const skillCategories = [
+  const categories = [
     {
-      title: 'Programming Languages',
-      skills: ['Python', 'C', 'C++', 'SQL', 'HTML', 'CSS', 'JavaScript']
+      title: 'Languages',
+      skills: ['Python', 'C', 'C++', 'SQL', 'HTML', 'CSS', 'JavaScript'],
     },
     {
-      title: 'Technologies & Frameworks',
-      skills: ['React', 'Vite', 'Node.js', 'FastAPI', 'Tailwind CSS', 'Redux Toolkit', 'Chess.js']
+      title: 'Frameworks & Tools',
+      skills: ['React', 'Vite', 'Node.js', 'FastAPI', 'Tailwind CSS', 'Redux Toolkit', 'Chess.js'],
     },
     {
       title: 'AI & Data Science',
-      skills: ['Machine Learning', 'Deep Learning', 'PyTorch', 'TensorFlow', 'Computer Vision', 'RAG Pipeline', 'pgvector']
+      skills: ['Machine Learning', 'Deep Learning', 'PyTorch', 'TensorFlow', 'Computer Vision', 'RAG Pipeline', 'pgvector'],
     },
     {
-      title: 'Databases & Tools',
-      skills: ['MySQL', 'PostgreSQL', 'MongoDB', 'GitHub', 'Git', 'REST APIs']
-    }
+      title: 'Databases & Infrastructure',
+      skills: ['MySQL', 'PostgreSQL', 'MongoDB', 'GitHub', 'Git', 'REST APIs'],
+    },
   ]
 
   return (
-    <section id="skills" className="py-20 px-6 bg-white dark:bg-slate-900 transition-colors duration-300">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-12 text-center transition-colors duration-300">Skills & Expertise</h2>
-        
-        <div className="grid md:grid-cols-2 gap-8">
-          {skillCategories.map((category, idx) => (
-            <div key={idx} className="bg-slate-50 dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700 hover:border-purple-500/50 dark:hover:border-purple-500/50 shadow-sm dark:shadow-none transition-all duration-300">
-              <h3 className="text-xl font-semibold text-purple-600 dark:text-purple-400 mb-4 transition-colors duration-300">{category.title}</h3>
-              <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill, i) => (
-                  <span
-                    key={i}
-                    className="px-3 py-1 bg-purple-50 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 rounded-full text-sm border border-purple-200 dark:border-purple-500/50 hover:bg-purple-100 dark:hover:bg-purple-500/30 transition-all duration-200"
-                  >
-                    {skill}
-                  </span>
+    <section id="skills" style={{ padding: '120px 24px', borderTop: '1px solid var(--border-color)' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '64px' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            Skills
+          </span>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.03em', marginTop: '8px' }}>
+            Technical Expertise
+          </h2>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' }}>
+          {categories.map((cat, idx) => (
+            <div key={idx} className="card">
+              <h3 style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: '16px' }}>
+                {cat.title}
+              </h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {cat.skills.map((skill, i) => (
+                  <span key={i} className="badge">{skill}</span>
                 ))}
               </div>
             </div>

@@ -1,53 +1,180 @@
 export default function About() {
   return (
-    <section id="about" className="py-20 px-6 bg-slate-100/50 dark:bg-slate-800 transition-colors duration-300">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-12 text-center transition-colors duration-300">About Me</h2>
-        
-        <div className="grid md:grid-cols-2 gap-12">
+    <section
+      id="about"
+      style={{
+        padding: '120px 24px',
+        borderTop: '1px solid var(--border-color)',
+      }}
+    >
+      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        {/* Section Label */}
+        <div style={{ marginBottom: '64px' }}>
+          <span
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.8rem',
+              color: 'var(--text-muted)',
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+            }}
+          >
+            About
+          </span>
+          <h2
+            style={{
+              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+              fontWeight: 800,
+              letterSpacing: '-0.03em',
+              marginTop: '8px',
+            }}
+          >
+            Background
+          </h2>
+        </div>
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            gap: '48px',
+          }}
+          className="md:grid-cols-2"
+        >
+          {/* Bio */}
           <div>
-            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6 transition-colors duration-300">Who I Am</h3>
-            <p className="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed transition-colors duration-300">
-              I'm a Bachelor's student in Computer Engineering at the Institute of Engineering, Tribhuvan University, Nepal (2023-2026). Passionate about building full-stack web applications and exploring the intersection of web development and artificial intelligence.
-            </p>
-            <p className="text-slate-600 dark:text-slate-300 mb-4 leading-relaxed transition-colors duration-300">
-              My journey has taken me from learning data structures and algorithms to implementing real-world AI solutions. I believe in writing clean, maintainable code and creating user-centric applications.
-            </p>
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed transition-colors duration-300">
-              When I'm not coding, you can find me playing guitar, enjoying a chess match, or diving into a good novel.
-            </p>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '20px',
+                color: 'var(--text-secondary)',
+                fontSize: '1rem',
+                lineHeight: 1.8,
+              }}
+            >
+              <p>
+                I'm a Computer Engineering student at the Institute of Engineering,
+                Tribhuvan University, Nepal (2023–2026). My work sits at the intersection
+                of full-stack web development and applied machine learning.
+              </p>
+              <p>
+                I've gone from studying data structures and algorithms to building
+                production-ready AI systems — including a RAG-based legal advisory tool
+                that serves Nepali law. I write clean, maintainable code and design
+                applications with the end-user in mind.
+              </p>
+              <p style={{ color: 'var(--text-muted)' }}>
+                Outside of work: guitar, chess, and novels.
+              </p>
+            </div>
           </div>
 
-          <div>
-            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6 transition-colors duration-300">Education</h3>
-            <div className="bg-white dark:bg-slate-700/50 rounded-lg p-6 border border-slate-200 dark:border-slate-600 shadow-sm dark:shadow-none transition-all duration-300">
-              <h4 className="text-xl font-semibold text-purple-600 dark:text-purple-400 mb-2 transition-colors duration-300">
-                Bachelor's in Computer Engineering
-              </h4>
-              <p className="text-slate-600 dark:text-slate-300 mb-4 transition-colors duration-300">
-                Institute of Engineering, Tribhuvan University, Nepal
+          {/* Education & Certs */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* Education Card */}
+            <div className="card">
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  marginBottom: '12px',
+                  flexWrap: 'wrap',
+                  gap: '8px',
+                }}
+              >
+                <h3 style={{ fontSize: '1rem', fontWeight: 700 }}>
+                  B.E. Computer Engineering
+                </h3>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.78rem',
+                    color: 'var(--text-muted)',
+                  }}
+                >
+                  2023 – 2026
+                </span>
+              </div>
+              <p
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'var(--text-secondary)',
+                  marginBottom: '16px',
+                }}
+              >
+                Institute of Engineering, Tribhuvan University
               </p>
-              <p className="text-slate-500 dark:text-slate-400 mb-4 transition-colors duration-300">2023 - 2026</p>
-              <div className="space-y-2">
-                <p className="text-slate-800 dark:text-slate-200 text-sm"><strong>Relevant Coursework:</strong></p>
-                <ul className="text-slate-500 dark:text-slate-455 text-sm space-y-1 transition-colors duration-300">
-                  <li>• Data Structures and Algorithms</li>
-                  <li>• Probability and Statistics</li>
-                  <li>• Machine Learning</li>
-                  <li>• Database Management Systems</li>
-                </ul>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {['Data Structures & Algorithms', 'Machine Learning', 'Database Systems', 'Probability & Statistics'].map(
+                  (course) => (
+                    <span key={course} className="badge">
+                      {course}
+                    </span>
+                  )
+                )}
               </div>
             </div>
 
-            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mt-8 mb-6 transition-colors duration-300">Certifications</h3>
-            <div className="space-y-3">
-              <div className="bg-white dark:bg-slate-700/50 rounded p-4 border border-slate-200 dark:border-slate-600 shadow-sm dark:shadow-none transition-all duration-300">
-                <p className="text-slate-800 dark:text-slate-300 font-semibold transition-colors duration-300">Supervised Machine Learning</p>
-                <p className="text-slate-500 dark:text-slate-400 text-sm transition-colors duration-300">DeepLearning.AI (2024)</p>
-              </div>
-              <div className="bg-white dark:bg-slate-700/50 rounded p-4 border border-slate-200 dark:border-slate-600 shadow-sm dark:shadow-none transition-all duration-300">
-                <p className="text-slate-800 dark:text-slate-300 font-semibold transition-colors duration-300">Advanced Learning Algorithms</p>
-                <p className="text-slate-500 dark:text-slate-400 text-sm transition-colors duration-300">DeepLearning.AI (2024)</p>
+            {/* Certifications Card */}
+            <div className="card">
+              <h3
+                style={{
+                  fontSize: '1rem',
+                  fontWeight: 700,
+                  marginBottom: '16px',
+                }}
+              >
+                Certifications
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {[
+                  { name: 'Supervised Machine Learning', org: 'DeepLearning.AI', year: '2024' },
+                  { name: 'Advanced Learning Algorithms', org: 'DeepLearning.AI', year: '2024' },
+                ].map((cert) => (
+                  <div
+                    key={cert.name}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      padding: '12px 0',
+                      borderBottom: '1px solid var(--border-color)',
+                      flexWrap: 'wrap',
+                      gap: '4px',
+                    }}
+                  >
+                    <div>
+                      <p
+                        style={{
+                          fontSize: '0.9rem',
+                          fontWeight: 600,
+                          color: 'var(--text-primary)',
+                        }}
+                      >
+                        {cert.name}
+                      </p>
+                      <p
+                        style={{
+                          fontSize: '0.8rem',
+                          color: 'var(--text-muted)',
+                        }}
+                      >
+                        {cert.org}
+                      </p>
+                    </div>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.75rem',
+                        color: 'var(--text-muted)',
+                      }}
+                    >
+                      {cert.year}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
