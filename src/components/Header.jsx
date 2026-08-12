@@ -24,7 +24,7 @@ export default function Header({ theme, setTheme }) {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
-  const menuItems = ['home', 'about', 'skills', 'projects', 'contact']
+  const menuItems = ['home', 'terminal', 'about', 'skills', 'projects', 'contact']
 
   return (
     <header

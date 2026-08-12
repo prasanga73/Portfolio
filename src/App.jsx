@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
+import Terminal from './components/Terminal'
 import About from './components/About'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
@@ -35,6 +36,7 @@ function App() {
       <Header theme={theme} setTheme={setTheme} />
       <main>
         <Hero />
+        <Terminal />
         <About />
         <Skills />
         <Projects />
