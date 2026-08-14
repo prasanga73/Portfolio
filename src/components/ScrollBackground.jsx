@@ -1,11 +1,15 @@
 import { useEffect, useRef } from 'react'
 
+const EMOJIS = ['ℼ', 'π', '𝛑', '𝜋', '𝝅', '𝝿']
+const SIZES = [8, 10, 12, 16, 20]
+
 export default function ScrollBackground({ theme }) {
   const canvasRef = useRef(null)
   const mouseRef = useRef({ x: -1000, y: -1000 })
   const scrollRef = useRef(0)
   const nodesRef = useRef([])
   const animRef = useRef(null)
+  const particlesRef = useRef([])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -41,10 +45,26 @@ export default function ScrollBackground({ theme }) {
 
     const handleMouse = (e) => {
       mouseRef.current = { x: e.clientX, y: e.clientY }
+
+      // 3o14.com spawns exactly 1 particle per mousemove event.
+      // Density comes from particles lingering a long time, not from multi-spawn.
+      particlesRef.current.push({
+        x: e.clientX,
+        y: e.clientY,
+        vx: (Math.random() - 0.5) * 2,
+        vy: (Math.random() - 0.5) * 2,
+        alpha: 1.0,
+        fading: false,
+        size: SIZES[Math.floor(Math.random() * SIZES.length)],
+        color: theme === 'dark' ? '#ffffff' : '#000000',
+        text: EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+      })
     }
+
     const handleMouseLeave = () => {
       mouseRef.current = { x: -1000, y: -1000 }
     }
+
     const handleScroll = () => {
       scrollRef.current = window.scrollY
     }
@@ -55,6 +75,30 @@ export default function ScrollBackground({ theme }) {
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     resize()
+
+    // 3o14.com random spawner: every ~3.5s, spawn 5 particles at a random spot
+    let randomSpawnTimer = null
+    function scheduleRandomSpawn() {
+      randomSpawnTimer = setTimeout(() => {
+        const rx = Math.random() * w
+        const ry = Math.random() * h
+        for (let i = 0; i < 5; i++) {
+          particlesRef.current.push({
+            x: rx,
+            y: ry,
+            vx: (Math.random() - 0.5) * 2,
+            vy: (Math.random() - 0.5) * 2,
+            alpha: 1.0,
+            fading: false,
+            size: SIZES[Math.floor(Math.random() * SIZES.length)],
+            color: theme === 'dark' ? '#ffffff' : '#000000',
+            text: EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+          })
+        }
+        scheduleRandomSpawn()
+      }, Math.random() * 3500)
+    }
+    scheduleRandomSpawn()
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h)
@@ -176,6 +220,43 @@ export default function ScrollBackground({ theme }) {
         }
       }
 
+      // Update and Draw Pi Particles
+      const particles = particlesRef.current
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i]
+
+        // 3o14.com exact physics: damping * 0.99, no gravity
+        p.vx *= 0.99
+        p.vy *= 0.99
+        p.x += p.vx
+        p.y += p.vy
+
+        // 3o14.com: when speed drops below 0.5, trigger fade.
+        // Original uses CSS `transition: opacity 2s ease`, so we fade over ~120 frames.
+        const speed = Math.abs(p.vx) + Math.abs(p.vy)
+        if (speed < 0.5 && !p.fading) {
+          p.fading = true
+        }
+        if (p.fading) {
+          p.alpha -= 0.008
+        }
+
+        if (p.alpha <= 0) {
+          particles.splice(i, 1)
+          continue
+        }
+
+        // Draw particle — plain text, no rotation, no glow (matching 3o14.com)
+        ctx.save()
+        ctx.globalAlpha = p.alpha
+        ctx.font = `${p.size}px "JetBrains Mono", "Outfit", "Inter", sans-serif`
+        ctx.fillStyle = p.color
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(p.text, p.x, p.y)
+        ctx.restore()
+      }
+
       animRef.current = requestAnimationFrame(draw)
     }
 
@@ -187,6 +268,7 @@ export default function ScrollBackground({ theme }) {
       document.removeEventListener('mouseleave', handleMouseLeave)
       window.removeEventListener('scroll', handleScroll)
       if (animRef.current) cancelAnimationFrame(animRef.current)
+      if (randomSpawnTimer) clearTimeout(randomSpawnTimer)
     }
   }, [theme])
 
