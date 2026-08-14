@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react'
 
-const EMOJIS = ['ℼ', 'π', '𝛑', '𝜋', '𝝅', '𝝿']
+const CHAR = 'प्र'
 const SIZES = [8, 10, 12, 16, 20]
+const WEIGHTS = [300, 400, 500, 600, 700]
+const STYLES = ['normal', 'italic']
+const FONTS = ['"Outfit"', '"Inter"', '"JetBrains Mono"', 'sans-serif', 'serif']
 
 export default function ScrollBackground({ theme }) {
   const canvasRef = useRef(null)
@@ -57,7 +60,11 @@ export default function ScrollBackground({ theme }) {
         fading: false,
         size: SIZES[Math.floor(Math.random() * SIZES.length)],
         color: theme === 'dark' ? '#ffffff' : '#000000',
-        text: EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+        text: CHAR,
+        weight: WEIGHTS[Math.floor(Math.random() * WEIGHTS.length)],
+        style: STYLES[Math.floor(Math.random() * STYLES.length)],
+        fontFamily: FONTS[Math.floor(Math.random() * FONTS.length)],
+        rotation: (Math.random() - 0.5) * 0.4
       })
     }
 
@@ -92,7 +99,11 @@ export default function ScrollBackground({ theme }) {
             fading: false,
             size: SIZES[Math.floor(Math.random() * SIZES.length)],
             color: theme === 'dark' ? '#ffffff' : '#000000',
-            text: EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+            text: CHAR,
+            weight: WEIGHTS[Math.floor(Math.random() * WEIGHTS.length)],
+            style: STYLES[Math.floor(Math.random() * STYLES.length)],
+            fontFamily: FONTS[Math.floor(Math.random() * FONTS.length)],
+            rotation: (Math.random() - 0.5) * 0.4
           })
         }
         scheduleRandomSpawn()
@@ -246,14 +257,20 @@ export default function ScrollBackground({ theme }) {
           continue
         }
 
-        // Draw particle — plain text, no rotation, no glow (matching 3o14.com)
+        // Draw particle with style variation
         ctx.save()
         ctx.globalAlpha = p.alpha
-        ctx.font = `${p.size}px "JetBrains Mono", "Outfit", "Inter", sans-serif`
+        ctx.font = `${p.style} ${p.weight} ${p.size}px ${p.fontFamily}`
         ctx.fillStyle = p.color
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
-        ctx.fillText(p.text, p.x, p.y)
+        if (p.rotation) {
+          ctx.translate(p.x, p.y)
+          ctx.rotate(p.rotation)
+          ctx.fillText(p.text, 0, 0)
+        } else {
+          ctx.fillText(p.text, p.x, p.y)
+        }
         ctx.restore()
       }
 
