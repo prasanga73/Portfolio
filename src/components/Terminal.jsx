@@ -409,14 +409,15 @@ LinkedIn: https://www.linkedin.com/in/prasanga-niraula-7bb8242a6
     switch (termTheme) {
       case 'light':
         return {
-          bg: '#FFFFFF',
+          bg: 'rgba(244, 244, 245, 0.95)',
           text: '#1E293B',
           prompt: '#2563EB',
           accent: '#4F46E5',
-          border: '1px solid #E2E8F0',
-          titleBg: '#F8FAFC',
+          border: '1px solid rgba(228, 228, 231, 0.95)',
+          titleBg: 'rgba(228, 228, 231, 0.95)',
           titleText: '#64748B',
-          cursor: '#2563EB'
+          cursor: '#2563EB',
+          backdropFilter: 'blur(var(--glass-blur))'
         }
       case 'matrix':
         return {
@@ -428,19 +429,21 @@ LinkedIn: https://www.linkedin.com/in/prasanga-niraula-7bb8242a6
           titleBg: '#051105',
           titleText: '#00FF00',
           cursor: '#00FF00',
-          textShadow: '0 0 4px rgba(0, 255, 0, 0.6)'
+          textShadow: '0 0 4px rgba(0, 255, 0, 0.6)',
+          backdropFilter: 'none'
         }
       case 'dark':
       default:
         return {
-          bg: '#0D0E12',
+          bg: 'rgba(24, 24, 27, 0.95)',
           text: '#F1F5F9',
           prompt: '#6366F1',
           accent: '#818CF8',
-          border: '1px solid #1E293B',
-          titleBg: '#13151D',
+          border: '1px solid rgba(39, 39, 42, 0.95)',
+          titleBg: 'rgba(39, 39, 42, 0.95)',
           titleText: '#94A3B8',
-          cursor: '#818CF8'
+          cursor: '#818CF8',
+          backdropFilter: 'blur(var(--glass-blur))'
         }
     }
   }
@@ -491,7 +494,9 @@ LinkedIn: https://www.linkedin.com/in/prasanga-niraula-7bb8242a6
             inset: isFullscreen ? '0' : 'auto',
             zIndex: isFullscreen ? 1000 : 'auto',
             boxShadow: '0 20px 40px rgba(0, 0, 0, 0.25)',
-            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            backdropFilter: themeStyles.backdropFilter || 'none',
+            WebkitBackdropFilter: themeStyles.backdropFilter || 'none',
           }}
         >
           {/* Matrix Overlay if active */}
@@ -596,7 +601,7 @@ LinkedIn: https://www.linkedin.com/in/prasanga-niraula-7bb8242a6
                 return (
                   <div key={idx} style={{ display: 'flex' }}>
                     <span style={{ color: themeStyles.prompt, marginRight: '8px', fontWeight: 600 }}>guest@prasanga:~$</span>
-                    <span>{log.text}</span>
+                    <span style={{ color: themeStyles.text }}>{log.text}</span>
                   </div>
                 )
               } else {
@@ -638,7 +643,7 @@ LinkedIn: https://www.linkedin.com/in/prasanga-niraula-7bb8242a6
                 />
                 {/* Rendered Text + Custom Cursor */}
                 <div style={{ display: 'flex', alignItems: 'center', pointerEvents: 'none', zIndex: 1 }}>
-                  <span>{input}</span>
+                  <span style={{ color: themeStyles.text }}>{input}</span>
                   <span 
                     style={{
                       display: 'inline-block',

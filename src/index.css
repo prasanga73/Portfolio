@@ -93,10 +93,10 @@ a {
 /* ── Glassmorphism Variables ────────────────────────────────── */
 :root {
   --glass-blur: 12px;
-  --glass-bg: rgba(9, 9, 11, 0.6);
-  --glass-bg-secondary: rgba(24, 24, 27, 0.5);
-  --glass-bg-tertiary: rgba(39, 39, 42, 0.4);
-  --glass-border: rgba(39, 39, 42, 0.6);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg-secondary: rgba(255, 255, 255, 0.03);
+  --glass-bg-tertiary: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 html:not(.dark) {
