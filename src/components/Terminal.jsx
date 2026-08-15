@@ -453,7 +453,7 @@ LinkedIn: https://www.linkedin.com/in/prasanga-niraula-7bb8242a6
       className="section"
       style={{ 
         padding: '120px 24px', 
-        borderTop: '1px solid var(--border-color)',
+        borderTop: '1px solid var(--glass-border)',
         position: 'relative'
       }}
     >

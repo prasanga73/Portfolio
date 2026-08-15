@@ -236,19 +236,22 @@ export default function Hero() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderRadius: '8px',
-                border: '1px solid var(--border-color)',
+                border: '1px solid var(--glass-border)',
                 color: 'var(--text-muted)',
+                backdropFilter: 'blur(var(--glass-blur))',
+                WebkitBackdropFilter: 'blur(var(--glass-blur))',
+                background: 'var(--glass-bg-tertiary)',
                 transition: 'all 0.2s',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'var(--border-hover)'
                 e.currentTarget.style.color = 'var(--text-primary)'
-                e.currentTarget.style.backgroundColor = 'var(--bg-secondary)'
+                e.currentTarget.style.background = 'var(--glass-bg-secondary)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--border-color)'
+                e.currentTarget.style.borderColor = 'var(--glass-border)'
                 e.currentTarget.style.color = 'var(--text-muted)'
-                e.currentTarget.style.backgroundColor = 'transparent'
+                e.currentTarget.style.background = 'var(--glass-bg-tertiary)'
               }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

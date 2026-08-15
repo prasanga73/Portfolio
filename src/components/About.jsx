@@ -4,7 +4,7 @@ export default function About() {
       id="about"
       style={{
         padding: '120px 24px',
-        borderTop: '1px solid var(--border-color)',
+        borderTop: '1px solid var(--glass-border)',
       }}
     >
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>

@@ -2,7 +2,7 @@ export default function Footer({ theme, setTheme }) {
   const year = new Date().getFullYear()
 
   return (
-    <footer style={{ borderTop: '1px solid var(--border-color)', padding: '40px 24px' }}>
+    <footer style={{ borderTop: '1px solid var(--glass-border)', padding: '40px 24px', backdropFilter: 'blur(var(--glass-blur))', WebkitBackdropFilter: 'blur(var(--glass-blur))' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
           <img
@@ -33,14 +33,15 @@ export default function Footer({ theme, setTheme }) {
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             style={{
-              background: 'none', border: '1px solid var(--border-color)',
+              background: 'var(--glass-bg-tertiary)', border: '1px solid var(--glass-border)',
               borderRadius: '6px', padding: '6px 12px', cursor: 'pointer',
               fontSize: '0.78rem', fontWeight: 500, color: 'var(--text-secondary)',
               fontFamily: 'var(--font-sans)', transition: 'all 0.2s',
               display: 'flex', alignItems: 'center', gap: '6px',
+              backdropFilter: 'blur(var(--glass-blur))', WebkitBackdropFilter: 'blur(var(--glass-blur))',
             }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.color = 'var(--text-primary)' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-color)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--glass-border)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
           >
             {theme === 'dark' ? (
               <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>Light</>

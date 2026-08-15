@@ -19,7 +19,7 @@ export default function Skills() {
   ]
 
   return (
-    <section id="skills" style={{ padding: '120px 24px', borderTop: '1px solid var(--border-color)' }}>
+    <section id="skills" style={{ padding: '120px 24px', borderTop: '1px solid var(--glass-border)' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
         <div style={{ marginBottom: '64px' }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--text-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>

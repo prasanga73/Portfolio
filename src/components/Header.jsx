@@ -33,13 +33,13 @@ export default function Header({ theme, setTheme }) {
         top: 0,
         zIndex: 100,
         backgroundColor: scrolled
-          ? 'var(--bg-primary)'
+          ? 'var(--glass-bg)'
           : 'transparent',
         borderBottom: scrolled
-          ? '1px solid var(--border-color)'
+          ? '1px solid var(--glass-border)'
           : '1px solid transparent',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
+        backdropFilter: 'blur(var(--glass-blur))',
+        WebkitBackdropFilter: 'blur(var(--glass-blur))',
         transition: 'background-color 0.3s, border-color 0.3s',
       }}
     >
@@ -223,8 +223,10 @@ export default function Header({ theme, setTheme }) {
             top: '72px',
             left: 0,
             right: 0,
-            backgroundColor: 'var(--bg-primary)',
-            borderBottom: '1px solid var(--border-color)',
+            backgroundColor: 'var(--glass-bg)',
+            backdropFilter: 'blur(var(--glass-blur))',
+            WebkitBackdropFilter: 'blur(var(--glass-blur))',
+            borderBottom: '1px solid var(--glass-border)',
             padding: '24px',
             display: 'flex',
             flexDirection: 'column',
