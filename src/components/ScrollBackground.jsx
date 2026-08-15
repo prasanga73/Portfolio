@@ -83,23 +83,23 @@ export default function ScrollBackground({ theme }) {
 
     resize()
 
-    // Ambient random spawner: frequent bursts across the viewport
+    // Ambient random spawner: subtle occasional bursts across the viewport
     let randomSpawnTimer = null
     function scheduleRandomSpawn() {
       randomSpawnTimer = setTimeout(() => {
-        // Spawn at 2-3 random locations per burst for wider coverage
-        const burstCount = 3 + Math.floor(Math.random() * 3)
+        // Spawn at 1-2 random locations per burst for subtle coverage
+        const burstCount = 1 + Math.floor(Math.random() * 2)
         for (let b = 0; b < burstCount; b++) {
           const rx = Math.random() * w
           const ry = Math.random() * h
-          const clusterSize = 10 + Math.floor(Math.random() * 9)
+          const clusterSize = 3 + Math.floor(Math.random() * 4)
           for (let i = 0; i < clusterSize; i++) {
             particlesRef.current.push({
               x: rx + (Math.random() - 0.5) * 40,
               y: ry + (Math.random() - 0.5) * 40,
               vx: (Math.random() - 0.5) * 2.5,
               vy: (Math.random() - 0.5) * 2.5,
-              alpha: 0.7 + Math.random() * 0.3,
+              alpha: 0.35 + Math.random() * 0.25,
               fading: false,
               size: SIZES[Math.floor(Math.random() * SIZES.length)],
               color: theme === 'dark' ? '#ffffff' : '#000000',
@@ -112,7 +112,7 @@ export default function ScrollBackground({ theme }) {
           }
         }
         scheduleRandomSpawn()
-      }, 800 + Math.random() * 1200)
+      }, 4000 + Math.random() * 4000)
     }
     scheduleRandomSpawn()
 
@@ -178,8 +178,8 @@ export default function ScrollBackground({ theme }) {
             const mouseDist = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy)
             const mouseProximity = Math.max(0, 1 - mouseDist / (MOUSE_RADIUS * 1.5))
 
-            const baseAlpha = isDark ? 0.10 : 0.14
-            const hoverAlpha = isDark ? 0.22 : 0.30
+            const baseAlpha = isDark ? 0.08 : 0.04
+            const hoverAlpha = isDark ? 0.18 : 0.08
             const alpha = baseAlpha + mouseProximity * hoverAlpha
             const falloff = 1 - dist / CONNECT_DIST
 
@@ -212,8 +212,8 @@ export default function ScrollBackground({ theme }) {
           n.y += mdy * 0.003 * mProximity
         }
 
-        const baseAlpha = isDark ? 0.25 : 0.30
-        const hoverAlpha = isDark ? 0.6 : 0.7
+        const baseAlpha = isDark ? 0.20 : 0.10
+        const hoverAlpha = isDark ? 0.45 : 0.20
         const alpha = baseAlpha + mProximity * hoverAlpha
         const radius = n.radius + mProximity * 2
 
@@ -229,8 +229,8 @@ export default function ScrollBackground({ theme }) {
           ctx.beginPath()
           ctx.arc(n.x, ny, radius + 4, 0, Math.PI * 2)
           ctx.strokeStyle = isDark
-            ? `rgba(99,102,241,${(mProximity * 0.2).toFixed(3)})`
-            : `rgba(79,70,229,${(mProximity * 0.15).toFixed(3)})`
+            ? `rgba(99,102,241,${(mProximity * 0.10).toFixed(3)})`
+            : `rgba(79,70,229,${(mProximity * 0.06).toFixed(3)})`
           ctx.lineWidth = 0.5
           ctx.stroke()
         }
