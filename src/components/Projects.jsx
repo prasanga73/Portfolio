@@ -30,7 +30,7 @@ export default function Projects() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {projects.map((project, idx) => (
-            <div key={idx} className="card" style={{ padding: '32px' }}>
+            <div key={idx} className="card" style={{ padding: '32px', backdropFilter: 'blur(var(--glass-blur))', WebkitBackdropFilter: 'blur(var(--glass-blur))' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 700 }}>{project.title}</h3>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--text-muted)' }}>{project.year}</span>
@@ -42,7 +42,7 @@ export default function Projects() {
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '20px' }}>
                 {project.tech.map((t, i) => (
-                  <span key={i} className="badge">{t}</span>
+                  <span key={i} className="badge" style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>{t}</span>
                 ))}
               </div>
 

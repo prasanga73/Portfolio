@@ -73,7 +73,7 @@ export default function About() {
           {/* Education & Certs */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             {/* Education Card */}
-            <div className="card">
+            <div className="card" style={{ backdropFilter: 'blur(var(--glass-blur))', WebkitBackdropFilter: 'blur(var(--glass-blur))' }}>
               <div
                 style={{
                   display: 'flex',
@@ -109,7 +109,7 @@ export default function About() {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {['Data Structures & Algorithms', 'Machine Learning', 'Database Systems', 'Probability & Statistics'].map(
                   (course) => (
-                    <span key={course} className="badge">
+                    <span key={course} className="badge" style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
                       {course}
                     </span>
                   )
@@ -118,7 +118,7 @@ export default function About() {
             </div>
 
             {/* Certifications Card */}
-            <div className="card">
+            <div className="card" style={{ backdropFilter: 'blur(var(--glass-blur))', WebkitBackdropFilter: 'blur(var(--glass-blur))' }}>
               <h3
                 style={{
                   fontSize: '1rem',

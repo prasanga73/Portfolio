@@ -50,7 +50,7 @@ export default function Contact() {
               { label: 'Phone', value: '+977-986-236-4021', href: 'tel:+977-986-236-4021' },
               { label: 'Location', value: 'Kathmandu, Nepal', href: null },
             ].map(({ label, value, href }) => (
-              <div key={label} className="card" style={{ padding: '20px 24px' }}>
+              <div key={label} className="card" style={{ padding: '20px 24px', backdropFilter: 'blur(var(--glass-blur))', WebkitBackdropFilter: 'blur(var(--glass-blur))' }}>
                 <p style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: '4px' }}>
                   {label}
                 </p>
@@ -68,7 +68,7 @@ export default function Contact() {
             ))}
 
             {/* Social Links */}
-            <div className="card" style={{ padding: '20px 24px' }}>
+            <div className="card" style={{ padding: '20px 24px', backdropFilter: 'blur(var(--glass-blur))', WebkitBackdropFilter: 'blur(var(--glass-blur))' }}>
               <p style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: '12px' }}>
                 Social
               </p>
@@ -90,7 +90,7 @@ export default function Contact() {
           </div>
 
           {/* Form */}
-          <div className="card" style={{ padding: '32px' }}>
+          <div className="card" style={{ padding: '32px', backdropFilter: 'blur(var(--glass-blur))', WebkitBackdropFilter: 'blur(var(--glass-blur))' }}>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div>
                 <label htmlFor="name" style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: '8px' }}>Name</label>

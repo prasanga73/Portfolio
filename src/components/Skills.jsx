@@ -32,13 +32,13 @@ export default function Skills() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' }}>
           {categories.map((cat, idx) => (
-            <div key={idx} className="card">
+            <div key={idx} className="card" style={{ backdropFilter: 'blur(var(--glass-blur))', WebkitBackdropFilter: 'blur(var(--glass-blur))' }}>
               <h3 style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: '16px' }}>
                 {cat.title}
               </h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {cat.skills.map((skill, i) => (
-                  <span key={i} className="badge">{skill}</span>
+                  <span key={i} className="badge" style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>{skill}</span>
                 ))}
               </div>
             </div>
