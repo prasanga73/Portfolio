@@ -97,6 +97,7 @@ a {
   --glass-bg-secondary: rgba(255, 255, 255, 0.03);
   --glass-bg-tertiary: rgba(255, 255, 255, 0.08);
   --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-dropdown-bg: rgba(9, 9, 11, 0.85);
 }
 
 html:not(.dark) {
@@ -104,6 +105,7 @@ html:not(.dark) {
   --glass-bg-secondary: rgba(244, 244, 245, 0.5);
   --glass-bg-tertiary: rgba(228, 228, 231, 0.4);
   --glass-border: rgba(228, 228, 231, 0.7);
+  --glass-dropdown-bg: rgba(255, 255, 255, 0.88);
 }
 
 /* ── Components ────────────────────────────────────────────── */
@@ -300,6 +302,19 @@ html:not(.dark) {
 
 .mobile-dropdown {
   display: none;
+  position: absolute;
+  top: 72px;
+  left: 0;
+  right: 0;
+  background-color: var(--glass-dropdown-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+  padding: 24px;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 99;
 }
 
 @media (max-width: 768px) {
