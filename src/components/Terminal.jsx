@@ -146,6 +146,7 @@ export default function Terminal() {
     'about',
     'skills',
     'projects',
+    'blog',
     'contact',
     'neofetch',
     'matrix',
@@ -204,6 +205,7 @@ export default function Terminal() {
   about     - Learn more about Prasanga's background
   skills    - List programming languages, tools & frameworks
   projects  - Show featured development projects & repos
+  blog      - View recent articles or visit blog.prasanganiraula.com.np
   contact   - Display social profiles and email details
   neofetch  - Run system information fetch
   matrix    - Enter code digital rain simulation (Canvas screen)
@@ -273,6 +275,29 @@ Certifications:
 
           projectLines += `\n\nUsage: 'projects open <id>' to open GitHub project repository`
           newLogs.push({ type: 'output', text: `Featured Work:\n--------------\n${projectLines}` })
+        }
+        break
+
+      case 'blog':
+        if (args[1] === 'open') {
+          window.open('https://blog.prasanganiraula.com.np/', '_blank', 'noopener,noreferrer')
+          newLogs.push({ type: 'output', text: 'Opening blog https://blog.prasanganiraula.com.np/ in new tab...' })
+        } else {
+          newLogs.push({
+            type: 'output',
+            text: `Personal Blog & Writing:
+-------------------------
+Site: https://blog.prasanganiraula.com.np/
+Recent Posts:
+  • Beyond Love
+  • The future I never wanted!
+  • Life of the party
+  • Krishna, a Metaphor
+
+Usage:
+  'blog open' - Open blog in a new tab
+  (Or scroll down to the #blog section for interactive cards & reading mode)`
+          })
         }
         break
 
