@@ -91,27 +91,23 @@ export default function Header({ theme, setTheme }) {
           </span>
         </button>
 
-        {/* Navigation - Desktop */}
-        <nav
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '32px',
-          }}
-          className="hidden md:flex"
-        >
-          {menuItems.map((item) => (
-            <button
-              key={item}
-              onClick={() => scrollToSection(item)}
-              className="nav-item"
-              style={{ textTransform: 'capitalize' }}
-            >
-              {item}
-            </button>
-          ))}
+        {/* Navigation & Controls */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          {/* Navigation - Desktop */}
+          <nav className="desktop-nav">
+            {menuItems.map((item) => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(item)}
+                className="nav-item"
+                style={{ textTransform: 'capitalize' }}
+              >
+                {item}
+              </button>
+            ))}
+          </nav>
 
-          {/* Theme Toggle Button */}
+          {/* Single Theme Toggle Button */}
           <button
             onClick={toggleTheme}
             style={{
@@ -156,47 +152,11 @@ export default function Header({ theme, setTheme }) {
               </svg>
             )}
           </button>
-        </nav>
 
-        {/* Mobile Menu Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }} className="md:hidden">
-          <button
-            onClick={toggleTheme}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: 'var(--text-secondary)',
-              display: 'flex',
-              alignItems: 'center',
-              padding: '6px',
-            }}
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-              </svg>
-            ) : (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-              </svg>
-            )}
-          </button>
-
+          {/* Mobile Menu Button - Hidden on Desktop */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: 'var(--text-primary)',
-              padding: '6px',
-            }}
+            className="mobile-menu-btn"
             aria-label="Toggle menu"
           >
             {isOpen ? (
@@ -228,12 +188,11 @@ export default function Header({ theme, setTheme }) {
             WebkitBackdropFilter: 'blur(var(--glass-blur))',
             borderBottom: '1px solid var(--glass-border)',
             padding: '24px',
-            display: 'flex',
             flexDirection: 'column',
             gap: '20px',
             zIndex: 99,
           }}
-          className="md:hidden"
+          className="mobile-dropdown"
         >
           {menuItems.map((item) => (
             <button

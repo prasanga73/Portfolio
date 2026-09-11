@@ -42,7 +42,7 @@ function App() {
         <Projects />
         <Contact />
       </main>
-      <Footer theme={theme} setTheme={setTheme} />
+      <Footer />
       </div>
     </div>
   )
