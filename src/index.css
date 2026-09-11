@@ -385,6 +385,11 @@ html:not(.dark) {
   50% { opacity: 0; }
 }
 
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.85; }
+}
+
 .delay-1 { animation-delay: 100ms; }
 .delay-2 { animation-delay: 200ms; }
 .delay-3 { animation-delay: 300ms; }
@@ -490,6 +495,10 @@ html:not(.dark) .inner-voice {
 /* Blog Card Typography matching blog.prasanganiraula.com.np */
 .blog-card {
   font-family: var(--font-blog);
+  background: var(--glass-bg-secondary);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
 .blog-card-title {

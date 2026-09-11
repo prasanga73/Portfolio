@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { queryAI } from '../utils/aiKnowledgeBase'
 
 // ASCII Art for neofetch
 const ASCII_ART = [
@@ -147,6 +148,7 @@ export default function Terminal() {
     'skills',
     'projects',
     'blog',
+    'ai',
     'contact',
     'neofetch',
     'matrix',
@@ -206,6 +208,7 @@ export default function Terminal() {
   skills    - List programming languages, tools & frameworks
   projects  - Show featured development projects & repos
   blog      - View recent articles or visit blog.prasanganiraula.com.np
+  ai        - Ask AI questions about hobbies, likes, projects (ai <query>)
   contact   - Display social profiles and email details
   neofetch  - Run system information fetch
   matrix    - Enter code digital rain simulation (Canvas screen)
@@ -297,6 +300,41 @@ Recent Posts:
 Usage:
   'blog open' - Open blog in a new tab
   (Or scroll down to the #blog section for interactive cards & reading mode)`
+          })
+        }
+        break
+
+      case 'ai':
+        const aiQuery = args.slice(1).join(' ').trim()
+        if (!aiQuery) {
+          newLogs.push({
+            type: 'output',
+            text: `Prasanga AI Assistant CLI:
+--------------------------
+Usage: 'ai <your question>'
+
+Examples:
+  ai what are your hobbies?
+  ai what do you like and dislike?
+  ai tell me about your projects
+  ai what is your education and skills?`
+          })
+        } else {
+          newLogs.push({ type: 'output', text: `Consulting Prasanga AI...` })
+          queryAI(aiQuery).then((res) => {
+            const cleanText = res.text
+              .replace(/\*\*(.*?)\*\*/g, '$1')
+              .replace(/\*(.*?)\*/g, '$1')
+              .replace(/\[(.*?)\]\((.*?)\)/g, '$1 ($2)')
+              .replace(/^[•\-\*]\s*/gm, '')
+
+            setHistory((prev) => [
+              ...prev,
+              {
+                type: 'output',
+                text: `[Prasanga AI (${res.source === 'open-source-llm' ? 'Open-Source LLM' : 'Verified Profile'})]:\n${cleanText}`,
+              },
+            ])
           })
         }
         break

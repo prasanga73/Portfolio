@@ -400,6 +400,8 @@ export default function Blog() {
                 justifyContent: 'space-between',
                 gap: '16px',
                 position: 'relative',
+                backdropFilter: 'blur(var(--glass-blur))',
+                WebkitBackdropFilter: 'blur(var(--glass-blur))',
               }}
             >
               <div>
@@ -426,6 +428,8 @@ export default function Blog() {
                     style={{
                       fontSize: '0.72rem',
                       padding: '2px 8px',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)',
                     }}
                   >
                     {post.readTime}

@@ -9,6 +9,7 @@ import Blog from './components/Blog'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import ScrollBackground from './components/ScrollBackground'
+import AIAssistant from './components/AIAssistant'
 import './App.css'
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <AIAssistant />
       </div>
     </div>
   )
