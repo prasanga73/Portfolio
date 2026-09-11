@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   // Models to try in order
   const modelsToTry = model
     ? [model]
-    : ['llama-3.1-8b-instant', 'llama3-8b-8192', 'gemma2-9b-it']
+    : ['openai/gpt-oss-20b', 'groq/compound-mini', 'qwen/qwen3.8-27b', 'openai/gpt-oss-120b']
 
   for (const modelName of modelsToTry) {
     try {
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
           model: modelName,
           messages,
           temperature: temperature ?? 0.7,
-          max_tokens: max_tokens ?? 350,
+          max_tokens: max_tokens ?? 250,
         }),
       })
 

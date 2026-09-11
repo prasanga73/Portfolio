@@ -458,7 +458,7 @@ export async function queryAI(userPrompt, conversationHistory = []) {
 
   if (apiKey) {
     // User supplied their own key — call Groq directly from browser
-    const modelsToTry = ['llama-3.1-8b-instant', 'llama3-8b-8192', 'gemma2-9b-it']
+    const modelsToTry = ['openai/gpt-oss-20b', 'groq/compound-mini', 'qwen/qwen3.8-27b', 'openai/gpt-oss-120b']
     for (const modelName of modelsToTry) {
       try {
         const controller = new AbortController()
@@ -470,7 +470,7 @@ export async function queryAI(userPrompt, conversationHistory = []) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${apiKey}`,
           },
-          body: JSON.stringify({ model: modelName, messages, temperature: 0.7, max_tokens: 350 }),
+          body: JSON.stringify({ model: modelName, messages, temperature: 0.7, max_tokens: 250 }),
           signal: controller.signal,
         })
 
@@ -498,7 +498,7 @@ export async function queryAI(userPrompt, conversationHistory = []) {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages, temperature: 0.7, max_tokens: 350 }),
+        body: JSON.stringify({ messages, temperature: 0.7, max_tokens: 250 }),
         signal: controller.signal,
       })
 
