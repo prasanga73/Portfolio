@@ -440,49 +440,37 @@ Feel free to ask me about his hobbies, fitness routine, personal style, what he 
  * Otherwise, uses the intelligent conversational local brain.
  */
 export async function queryAI(userPrompt, conversationHistory = []) {
-  const timeoutMs = 12000
+  const timeoutMs = 15000
 
-  // Check if an API key was provided via UI settings (localStorage) or Vite env
+  // Check if user provided a custom key via the UI settings panel (localStorage).
+  // If so, call Groq directly from the browser with that key.
+  // Otherwise, route through /api/chat serverless proxy (key stays server-side).
   let apiKey = ''
   if (typeof window !== 'undefined') {
     apiKey = localStorage.getItem('ai_api_key') || ''
   }
-  if (!apiKey) {
-    apiKey = import.meta.env?.VITE_AI_API_KEY || ''
-  }
 
-  const apiEndpoint = import.meta.env?.VITE_AI_ENDPOINT || 'https://openrouter.ai/api/v1/chat/completions'
+  const messages = [
+    { role: 'system', content: SYSTEM_PROMPT },
+    ...conversationHistory.slice(-4),
+    { role: 'user', content: userPrompt },
+  ]
 
   if (apiKey) {
-    const isGroq = apiEndpoint.includes('groq.com')
-    const targetUrl = isGroq ? 'https://api.groq.com/openai/v1/chat/completions' : apiEndpoint
-
-    // Ordered list of models to try (Groq models rotate availability)
-    const modelsToTry = isGroq
-      ? ['qwen/qwen3.8-27b', 'openai/gpt-oss-20b', 'qwen/qwen3.6-27b']
-      : ['mistralai/mistral-7b-instruct:free']
-
+    // User supplied their own key — call Groq directly from browser
+    const modelsToTry = ['llama-3.1-8b-instant', 'llama3-8b-8192', 'gemma2-9b-it']
     for (const modelName of modelsToTry) {
       try {
         const controller = new AbortController()
         const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
 
-        const response = await fetch(targetUrl, {
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${apiKey}`,
           },
-          body: JSON.stringify({
-            model: modelName,
-            messages: [
-              { role: 'system', content: SYSTEM_PROMPT },
-              ...conversationHistory.slice(-4),
-              { role: 'user', content: userPrompt },
-            ],
-            temperature: 0.7,
-            max_tokens: 350,
-          }),
+          body: JSON.stringify({ model: modelName, messages, temperature: 0.7, max_tokens: 350 }),
           signal: controller.signal,
         })
 
@@ -492,28 +480,46 @@ export async function queryAI(userPrompt, conversationHistory = []) {
           const data = await response.json()
           let text = data.choices?.[0]?.message?.content
           if (text) {
-            // Strip thinking tags from reasoning models (e.g. Qwen)
             text = text.replace(/<think>[\s\S]*?<\/think>/g, '').trim()
-            // Strip markdown formatting artifacts
             text = text.replace(/[*#_`]/g, '').trim()
-            if (text) {
-              return { text, source: 'open-source-llm' }
-            }
+            if (text) return { text, source: 'open-source-llm' }
           }
         }
-        // If response was not ok (e.g. model_not_found), try next model
       } catch (err) {
-        console.warn(`Model ${modelName} failed, trying next:`, err)
+        console.warn(`Direct model ${modelName} failed:`, err)
       }
     }
+  } else {
+    // No user key — route through secure /api/chat serverless proxy
+    try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
 
-    console.warn('All LLM models failed, using conversational local brain')
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages, temperature: 0.7, max_tokens: 350 }),
+        signal: controller.signal,
+      })
+
+      clearTimeout(timeoutId)
+
+      if (response.ok) {
+        const data = await response.json()
+        let text = data.choices?.[0]?.message?.content
+        if (text) {
+          text = text.replace(/<think>[\s\S]*?<\/think>/g, '').trim()
+          text = text.replace(/[*#_`]/g, '').trim()
+          if (text) return { text, source: 'open-source-llm' }
+        }
+      }
+    } catch (err) {
+      console.warn('Serverless proxy failed, falling back to local brain:', err)
+    }
   }
 
-  // Instantaneous, highly intelligent local conversational brain
+  // Local knowledge base fallback — always works, no API needed
   const fallbackText = getFallbackResponse(userPrompt)
-  return {
-    text: fallbackText,
-    source: 'knowledge-base',
-  }
+  return { text: fallbackText, source: 'knowledge-base' }
 }
+
