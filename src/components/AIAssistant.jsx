@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { queryAI } from '../utils/aiKnowledgeBase'
+import { logConversation, queryAI } from '../utils/aiKnowledgeBase'
 
 const SUGGESTIONS = [
   'Who is Prasanga?',
@@ -69,6 +69,12 @@ export default function AIAssistant() {
       }))
 
       const response = await queryAI(query, historyForLLM)
+      void logConversation({
+        question: query,
+        answer: response.text,
+        source: response.source,
+        messageCount: updatedMessages.length + 1,
+      })
       setMessages((prev) => [
         ...prev,
         {

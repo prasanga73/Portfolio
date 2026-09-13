@@ -532,3 +532,58 @@ export async function queryAI(userPrompt, conversationHistory = []) {
   return { text: fallbackText, source: 'knowledge-base' }
 }
 
+export async function logConversation({ question, answer, source, messageCount }) {
+  if (typeof window === 'undefined') return
+  const sessionKey = 'portfolio_chat_session_id'
+  const sessionId = sessionStorage.getItem(sessionKey) || crypto.randomUUID()
+  sessionStorage.setItem(sessionKey, sessionId)
+  const browser = {
+    userAgent: navigator.userAgent,
+    appVersion: navigator.appVersion,
+    platform: navigator.platform,
+    vendor: navigator.vendor,
+    language: navigator.language,
+    languages: navigator.languages,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    timezoneOffset: new Date().getTimezoneOffset(),
+    cookieEnabled: navigator.cookieEnabled,
+    doNotTrack: navigator.doNotTrack,
+    online: navigator.onLine,
+    hardwareConcurrency: navigator.hardwareConcurrency,
+    deviceMemory: navigator.deviceMemory,
+    maxTouchPoints: navigator.maxTouchPoints,
+    screen: {
+      width: screen.width,
+      height: screen.height,
+      availWidth: screen.availWidth,
+      availHeight: screen.availHeight,
+      colorDepth: screen.colorDepth,
+      pixelDepth: screen.pixelDepth,
+    },
+    viewport: {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      devicePixelRatio: window.devicePixelRatio,
+    },
+    referrer: document.referrer,
+  }
+
+  try {
+    await fetch('/api/chat-log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId,
+        question,
+        answer,
+        source,
+        messageCount,
+        language: navigator.language,
+        browser,
+      }),
+    })
+  } catch (error) {
+    console.warn('Conversation logging unavailable:', error)
+  }
+}
+

@@ -10,9 +10,10 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import ScrollBackground from './components/ScrollBackground'
 import AIAssistant from './components/AIAssistant'
+import Admin from './components/Admin'
 import './App.css'
 
-function App() {
+function PortfolioApp() {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       const savedTheme = localStorage.getItem('theme')
@@ -50,6 +51,11 @@ function App() {
       </div>
     </div>
   )
+}
+
+function App() {
+  const isAdmin = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('admin') === '1'
+  return isAdmin ? <Admin /> : <PortfolioApp />
 }
 
 export default App
