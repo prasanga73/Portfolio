@@ -25,6 +25,14 @@ const PROJECTS_DATA = [
     tech: ['React', 'Vite', 'Tailwind CSS', 'Chess.js', 'Redux Toolkit', 'Stockfish'],
     github: 'https://github.com/prasanga73/chessSansar',
     year: '2024'
+  },
+  {
+    id: 3,
+    title: 'QA Portfolio',
+    description: 'Quality engineering portfolio covering manual testing, requirements traceability, UI automation, REST API verification, and JMeter load testing.',
+    tech: ['Manual QA', 'UI Automation', 'REST API', 'JMeter'],
+    github: 'https://github.com/prasanga73/QA-Portfolio',
+    year: '2026'
   }
 ]
 

@@ -13,6 +13,10 @@ export default function Skills() {
       skills: ['Machine Learning', 'Deep Learning', 'PyTorch', 'TensorFlow', 'Computer Vision', 'RAG Pipeline', 'pgvector'],
     },
     {
+      title: 'QA & Testing',
+      skills: ['Manual Testing', 'Requirements Traceability', 'UI Automation', 'REST API Testing', 'Authentication & Security', 'JMeter Load Testing', 'Postman'],
+    },
+    {
       title: 'Databases & Infrastructure',
       skills: ['MySQL', 'PostgreSQL', 'MongoDB', 'GitHub', 'Git', 'REST APIs'],
     },
@@ -30,10 +34,10 @@ export default function Skills() {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '20px' }}>
+        <div className="skills-grid">
           {categories.map((cat, idx) => (
             <div key={idx} className="card" style={{ backdropFilter: 'blur(var(--glass-blur))', WebkitBackdropFilter: 'blur(var(--glass-blur))' }}>
-              <h3 style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: '16px' }}>
+              <h3 style={{ fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '16px' }}>
                 {cat.title}
               </h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>

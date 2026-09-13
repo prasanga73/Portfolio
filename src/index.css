@@ -161,6 +161,53 @@ html:not(.dark) {
   -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.skills-grid .card {
+  grid-column: span 4;
+  background: var(--bg-secondary);
+  border-color: var(--border-hover);
+}
+
+.skills-grid .card:hover {
+  background: var(--bg-secondary);
+}
+
+.skills-grid .card h3 {
+  color: var(--text-primary);
+}
+
+.skills-grid .badge {
+  background: var(--bg-tertiary);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.skills-grid .card:nth-child(n + 4) {
+  grid-column: span 6;
+}
+
+@media (max-width: 900px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .skills-grid .card,
+  .skills-grid .card:nth-child(n + 4) {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .skills-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* Minimal Badge — Glassmorphism */
 .badge {
   font-family: var(--font-mono);
@@ -274,7 +321,7 @@ html:not(.dark) {
 .nav-item {
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   position: relative;
   padding: 6px 0;
   cursor: pointer;

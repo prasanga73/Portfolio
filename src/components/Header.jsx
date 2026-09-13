@@ -37,10 +37,10 @@ export default function Header({ theme, setTheme }) {
       <div
         style={{
           backgroundColor: (scrolled || isOpen)
-            ? 'var(--glass-bg)'
+            ? 'var(--bg-primary)'
             : 'transparent',
           borderBottom: (scrolled || isOpen)
-            ? '1px solid var(--glass-border)'
+            ? '1px solid var(--border-color)'
             : '1px solid transparent',
           backdropFilter: (scrolled || isOpen) ? 'blur(var(--glass-blur))' : 'none',
           WebkitBackdropFilter: (scrolled || isOpen) ? 'blur(var(--glass-blur))' : 'none',

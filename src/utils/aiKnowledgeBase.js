@@ -113,6 +113,15 @@ export const PRASANGA_PROFILE = {
       tech: ['React', 'Vite', 'Tailwind CSS', 'Chess.js', 'Django Channels', 'WebSockets', 'Stockfish'],
       github: 'https://github.com/prasanga73/chessSansar',
     },
+    {
+      title: 'QA Portfolio',
+      year: '2026',
+      role: 'QA Engineer',
+      description: 'Quality engineering portfolio covering manual testing, requirements traceability, UI automation, REST API verification, and JMeter load testing, with 52 documented test cases and 20,000 benchmarked requests.',
+      tech: ['Manual QA', 'UI Automation', 'REST API', 'JMeter', 'Test Cases'],
+      live: 'https://qa.prasanganiraula.com.np',
+      github: 'https://github.com/prasanga73/QA-Portfolio',
+    },
   ],
   skills: {
     languages: ['Python', 'JavaScript (ES6+)', 'TypeScript', 'C/C++', 'SQL'],
