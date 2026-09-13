@@ -63,6 +63,10 @@ export default function Admin() {
   const [conversations, setConversations] = useState([])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [deletingSessionId, setDeletingSessionId] = useState('')
+  const [deletingAll, setDeletingAll] = useState(false)
+  const [showDeleteAllDialog, setShowDeleteAllDialog] = useState(false)
+  const [deleteConfirmation, setDeleteConfirmation] = useState('')
 
   const loadConversations = async (showErrors = true) => {
     setLoading(true)
@@ -87,6 +91,18 @@ export default function Admin() {
     return () => window.clearTimeout(timer)
   }, [])
 
+  useEffect(() => {
+    if (!showDeleteAllDialog) return undefined
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && !deletingAll) {
+        setShowDeleteAllDialog(false)
+        setDeleteConfirmation('')
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [showDeleteAllDialog, deletingAll])
+
   const handleLogin = (event) => {
     event.preventDefault()
     setLoading(true)
@@ -106,6 +122,60 @@ export default function Admin() {
       })
       .catch((requestError) => setError(requestError.message))
       .finally(() => setLoading(false))
+  }
+
+  const deleteSession = async (sessionId) => {
+    setDeletingSessionId(sessionId)
+    setError('')
+    try {
+      const response = await fetch('/api/admin-conversations', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ sessionId }),
+      })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Unable to delete conversation session')
+      setConversations((current) => current.filter((conversation) => (conversation.sessionId || conversation.id) !== sessionId))
+    } catch (requestError) {
+      setError(requestError.message)
+    } finally {
+      setDeletingSessionId('')
+    }
+  }
+
+  const openDeleteAllDialog = () => {
+    setDeleteConfirmation('')
+    setShowDeleteAllDialog(true)
+  }
+
+  const closeDeleteAllDialog = () => {
+    if (deletingAll) return
+    setShowDeleteAllDialog(false)
+    setDeleteConfirmation('')
+  }
+
+  const deleteAll = async (event) => {
+    event.preventDefault()
+    setDeletingAll(true)
+    setError('')
+    try {
+      const response = await fetch('/api/admin-conversations', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ all: true }),
+      })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Unable to delete conversations')
+      setConversations([])
+      setShowDeleteAllDialog(false)
+      setDeleteConfirmation('')
+    } catch (requestError) {
+      setError(requestError.message)
+    } finally {
+      setDeletingAll(false)
+    }
   }
 
   const sessions = groupBySession(conversations)
@@ -134,7 +204,10 @@ export default function Admin() {
     <main className="admin-shell">
       <div className="admin-header">
         <div className="admin-title"><p className="admin-kicker">PRIVATE CONSOLE</p><h1>Conversation archive</h1><p>{sessions.length} sessions <span aria-hidden="true">·</span> {conversations.length} exchanges</p></div>
-        <button className="admin-button" onClick={() => loadConversations()} disabled={loading}>{loading ? 'Refreshing...' : 'Refresh'}</button>
+        <div className="admin-header-actions">
+          <button className="admin-button admin-danger-button" onClick={openDeleteAllDialog} disabled={loading || deletingAll || conversations.length === 0}>{deletingAll ? 'Deleting...' : 'Delete all'}</button>
+          <button className="admin-button" onClick={() => loadConversations()} disabled={loading || deletingAll}>{loading ? 'Refreshing...' : 'Refresh'}</button>
+        </div>
       </div>
       {error && <p className="admin-error">{error}</p>}
       <div className="admin-list">
@@ -145,6 +218,7 @@ export default function Admin() {
               <div className="admin-session-stats">
                 <span>{session.exchanges.length} {session.exchanges.length === 1 ? 'exchange' : 'exchanges'}</span>
                 <span>{session.visitor?.ip || 'unknown IP'}</span>
+                <button className="admin-button admin-session-delete" type="button" onClick={() => deleteSession(session.sessionId)} disabled={deletingSessionId === session.sessionId || deletingAll}>{deletingSessionId === session.sessionId ? 'Deleting...' : 'Delete session'}</button>
               </div>
             </div>
             <div className="admin-exchanges">
@@ -167,6 +241,19 @@ export default function Admin() {
         ))}
         {!loading && conversations.length === 0 && <p className="admin-empty">No conversations have been logged yet.</p>}
       </div>
+      {showDeleteAllDialog && <div className="admin-dialog-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) closeDeleteAllDialog() }}>
+        <section className="admin-dialog" role="dialog" aria-modal="true" aria-labelledby="delete-all-title" aria-describedby="delete-all-description">
+          <div className="admin-dialog-icon" aria-hidden="true">!</div>
+          <div className="admin-dialog-content">
+            <p className="admin-kicker">DESTRUCTIVE ACTION</p>
+            <h2 id="delete-all-title">Delete all conversation logs?</h2>
+            <p id="delete-all-description">This will permanently remove <strong>{sessions.length} {sessions.length === 1 ? 'session' : 'sessions'}</strong> and all {conversations.length} exchanges from the archive. This action cannot be undone.</p>
+            <label className="admin-dialog-confirmation">Type <strong>delete</strong> to confirm<input autoFocus value={deleteConfirmation} onChange={(event) => setDeleteConfirmation(event.target.value)} placeholder="delete" autoComplete="off" /></label>
+          </div>
+          <div className="admin-dialog-actions"><button className="admin-button" type="button" onClick={closeDeleteAllDialog} disabled={deletingAll}>Cancel</button><button className="admin-button admin-danger-button" type="submit" form="delete-all-form" disabled={deleteConfirmation !== 'delete' || deletingAll}>{deletingAll ? 'Deleting...' : 'Delete everything'}</button></div>
+          <form id="delete-all-form" onSubmit={deleteAll} />
+        </section>
+      </div>}
     </main>
   )
 }
