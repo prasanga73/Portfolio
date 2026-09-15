@@ -269,12 +269,12 @@ html:not(.dark) {
 
 .skills-grid .card {
   grid-column: span 4;
-  background: var(--bg-secondary);
-  border-color: var(--border-hover);
+  background: var(--glass-bg-secondary);
+  border-color: var(--glass-border);
 }
 
 .skills-grid .card:hover {
-  background: var(--bg-secondary);
+  background: var(--glass-bg-tertiary);
 }
 
 .skills-grid .card h3 {
@@ -282,8 +282,8 @@ html:not(.dark) {
 }
 
 .skills-grid .badge {
-  background: var(--bg-tertiary);
-  border-color: var(--border-hover);
+  background: var(--glass-bg-tertiary);
+  border-color: var(--glass-border);
   color: var(--text-primary);
 }
 
